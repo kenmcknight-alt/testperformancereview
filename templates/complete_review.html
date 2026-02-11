@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card modern-card">
+  <div class="card-header bg-white">
+    <h1 class="h5 mb-1">{{ review.title }} — {{ role.title() }} Form</h1>
+    <p class="small text-muted mb-0">{{ review.reviewer.name }} reviewing {{ review.reviewee.name }}</p>
+  </div>
+  <div class="card-body">
+    {% if questions %}
+      <form method="post" class="vstack gap-3">
+        {% for question in questions %}
+          <div>
+            <label class="form-label">{{ loop.index }}. {{ question.prompt }}</label>
+            <textarea class="form-control" rows="3" name="q_{{ question.id }}">{{ existing_answers.get(question.id, '') }}</textarea>
+          </div>
+        {% endfor %}
+        <button class="btn btn-primary align-self-start">Save {{ role.title() }} Responses</button>
+      </form>
+    {% else %}
+      <p class="text-muted mb-0">No questions in this template require {{ role }} responses.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

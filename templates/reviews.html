@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card modern-card">
+      <div class="card-header bg-white"><h1 class="h5 mb-0">Initiate Review</h1></div>
+      <div class="card-body">
+        <form method="post" class="vstack gap-3">
+          <div>
+            <label class="form-label">Review Title</label>
+            <input class="form-control" name="title" placeholder="e.g. Q2 2026 Review" required>
+          </div>
+          <div>
+            <label class="form-label">Template</label>
+            <select class="form-select" name="template_id" required>
+              <option value="">Select template</option>
+              {% for template in templates %}
+                <option value="{{ template.id }}">{{ template.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Reviewer</label>
+            <select class="form-select" name="reviewer_id" required>
+              <option value="">Select reviewer</option>
+              {% for person in staff_members %}
+                <option value="{{ person.id }}">{{ person.name }} ({{ person.title }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Reviewee</label>
+            <select class="form-select" name="reviewee_id" required>
+              <option value="">Select reviewee</option>
+              {% for person in staff_members %}
+                <option value="{{ person.id }}">{{ person.name }} ({{ person.title }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button class="btn btn-primary">Create Review</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card modern-card">
+      <div class="card-header bg-white"><h2 class="h5 mb-0">Review Queue</h2></div>
+      <div class="card-body">
+        {% if reviews %}
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead><tr><th>Title</th><th>Reviewer</th><th>Reviewee</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                {% for review in reviews %}
+                <tr>
+                  <td>{{ review.title }}</td>
+                  <td>{{ review.reviewer.name }}</td>
+                  <td>{{ review.reviewee.name }}</td>
+                  <td><span class="badge text-bg-{{ 'success' if review.status == 'Completed' else 'warning' }}">{{ review.status }}</span></td>
+                  <td class="d-flex flex-wrap gap-1">
+                    <a class="btn btn-sm btn-outline-primary" href="{{ url_for('complete_review', review_id=review.id, role='reviewer') }}">Reviewer form</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('complete_review', review_id=review.id, role='reviewee') }}">Reviewee form</a>
+                    <a class="btn btn-sm btn-outline-dark" href="{{ url_for('view_review', review_id=review.id) }}">View</a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-muted mb-0">No initiated reviews yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

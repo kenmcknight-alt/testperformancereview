@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% macro render_branch(person, by_manager) %}
+  <li>
+    <div class="org-node">
+      <strong>{{ person.name }}</strong>
+      <div class="text-muted small">{{ person.title }}</div>
+    </div>
+    {% if by_manager[person.id] %}
+      <ul>
+      {% for report in by_manager[person.id] | sort(attribute='name') %}
+        {{ render_branch(report, by_manager) }}
+      {% endfor %}
+      </ul>
+    {% endif %}
+  </li>
+{% endmacro %}
+
+{% block content %}
+<h1 class="h4 mb-4">Organization Chart</h1>
+<div class="card modern-card">
+  <div class="card-body">
+    {% if roots %}
+      <div class="org-tree">
+        <ul>
+          {% for root in roots %}
+            {{ render_branch(root, by_manager) }}
+          {% endfor %}
+        </ul>
+      </div>
+    {% else %}
+      <p class="text-muted mb-0">Register staff members to visualize the organization chart.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
