@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card modern-card">
+      <div class="card-header bg-white"><h1 class="h5 mb-0">Register Staff Member</h1></div>
+      <div class="card-body">
+        <form method="post" class="vstack gap-3">
+          <div>
+            <label class="form-label">Full Name</label>
+            <input class="form-control" name="name" required>
+          </div>
+          <div>
+            <label class="form-label">Title</label>
+            <input class="form-control" name="title" required>
+          </div>
+          <div>
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email" name="email" required>
+          </div>
+          <div>
+            <label class="form-label">Manager</label>
+            <select class="form-select" name="manager_id">
+              <option value="">No manager (top-level)</option>
+              {% for member in members %}
+                <option value="{{ member.id }}">{{ member.name }} — {{ member.title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button class="btn btn-primary">Add Staff Member</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-8">
+    <div class="card modern-card">
+      <div class="card-header bg-white"><h2 class="h5 mb-0">All Staff</h2></div>
+      <div class="card-body">
+        {% if members %}
+        <div class="table-responsive">
+          <table class="table">
+            <thead><tr><th>Name</th><th>Title</th><th>Email</th><th>Manager</th></tr></thead>
+            <tbody>
+              {% for member in members %}
+                <tr>
+                  <td>{{ member.name }}</td>
+                  <td>{{ member.title }}</td>
+                  <td>{{ member.email }}</td>
+                  <td>{{ member.manager.name if member.manager else '—' }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+          <p class="text-muted mb-0">No staff members registered yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

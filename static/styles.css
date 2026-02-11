@@ -1,0 +1,52 @@
+:root {
+  --brand-primary: #2c4cff;
+  --brand-secondary: #6f7dff;
+  --bg-soft: #f5f7ff;
+}
+
+body {
+  background: radial-gradient(circle at top right, #ebeeff, #f8f9ff 38%, #f7f9fb 65%);
+  min-height: 100vh;
+}
+
+.navbar {
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+}
+
+.modern-card {
+  border: 0;
+  border-radius: 14px;
+  box-shadow: 0 6px 22px rgba(28, 44, 129, 0.08);
+}
+
+.metric-card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 5px 20px rgba(30, 54, 145, 0.08);
+  padding: 1rem;
+}
+
+.metric-card p {
+  color: #667085;
+  margin: 0;
+}
+
+.metric-card h2 {
+  margin: 0.2rem 0 0;
+  font-size: 1.7rem;
+}
+
+.org-tree ul {
+  list-style: none;
+  padding-left: 1rem;
+  border-left: 2px solid #dde2ff;
+}
+
+.org-node {
+  background: var(--bg-soft);
+  border: 1px solid #dde2ff;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 0.4rem 0;
+  padding: 0.5rem 0.8rem;
+}
